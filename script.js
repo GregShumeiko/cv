@@ -1,119 +1,78 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const panels = document.querySelectorAll('.panel');
-  const dots = document.querySelectorAll('.dot');
-  let currentIndex = 0;
-  let isAnimating = false;
+/* Основные стили */
+.panel-content {
+  position: relative;
+  width: 80%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+  padding-top: 15vh; /* Заголовок в первой трети */
+  box-sizing: border-box;
+}
 
-  // Тексты для анимации печати
-  const panelTexts = [
-    "Потрясающий параллакс",
-    "О нашей компании",
-    "Наши проекты",
-    "Наши услуги",
-    "Контакты"
-  ];
+.typing-text {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  min-height: 4rem;
+  border-right: 3px solid white;
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 0;
+}
 
-  // Длинные тексты для каждого блока
-  const panelDescriptions = [
-    "Компания 'Параллакс' - ведущий разработчик инновационных цифровых решений с 2010 года. Мы специализируемся на создании уникальных веб-приложений с использованием современных технологий. Наша команда состоит из 50+ профессионалов, которые уже реализовали более 200 успешных проектов для клиентов по всему миру. Мы гордимся каждым проектом и стремимся к совершенству во всех аспектах нашей работы.",
-    "Наша компания была основана в 2010 году группой энтузиастов, которые верили в силу технологий. Сегодня мы - это сплоченная команда профессионалов, работающая над созданием цифровых решений будущего. Наши ценности: инновации, качество и клиентоориентированность. Мы постоянно развиваемся и внедряем новые технологии, чтобы оставаться на передовой цифровой трансформации.",
-    "Среди наших проектов: корпоративные порталы для крупных компаний, мобильные приложения с миллионной аудиторией, сложные веб-приложения для финансового сектора. Каждый проект - это уникальный вызов и возможность создать что-то действительно значимое. Мы работаем с клиентами из различных отраслей, предлагая индивидуальные решения для каждого бизнеса.",
-    "Мы предлагаем полный цикл разработки: от анализа бизнес-процессов и проектирования UX/UI до реализации и поддержки. Наши услуги включают веб-разработку, мобильные приложения, интеграцию систем, аналитику данных и консалтинг. Мы используем Agile-подход, что позволяет нам быть гибкими и оперативно реагировать на изменения требований.",
-    "Свяжитесь с нами для обсуждения вашего проекта. Наш офис находится в Москве, но мы работаем с клиентами по всему миру. Телефон: +7 (495) 123-45-67, email: info@parallax.ru. Мы открыты для сотрудничества и всегда рады новым вызовам. Давайте создавать будущее вместе!"
-  ];
+.text-content {
+  opacity: 0;
+  transform: translateY(20px);
+  width: 100%;
+  margin: 2rem 0;
+}
 
-  // Обработчик свайпа с ограничением
-  let touchStartY = 0;
-  let isScrolling = false;
+.text-content p {
+  text-align: left;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  max-width: 100%;
+}
 
-  window.addEventListener('touchstart', (e) => {
-    touchStartY = e.touches[0].clientY;
-  }, { passive: true });
+.slide-up-btn {
+  position: absolute;
+  bottom: 20vh; /* Кнопка в нижней трети */
+  left: 0;
+  opacity: 0;
+  transform: translateY(50px);
+}
 
-  window.addEventListener('touchend', (e) => {
-    if (isScrolling || isAnimating) return;
-    isScrolling = true;
-    
-    const touchEndY = e.changedTouches[0].clientY;
-    const diff = touchStartY - touchEndY;
-    
-    if (diff > 50 && currentIndex < panels.length - 1) {
-      goToPanel(currentIndex + 1);
-    } else if (diff < -50 && currentIndex > 0) {
-      goToPanel(currentIndex - 1);
-    }
-    
-    setTimeout(() => {
-      isScrolling = false;
-    }, 1000);
-  }, { passive: true });
+/* Анимации */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: white; }
+}
 
-  // Навигация по точкам и ссылкам
-  document.querySelectorAll('[data-index]').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      const index = parseInt(el.getAttribute('data-index'));
-      if (!isAnimating && index !== currentIndex) {
-        goToPanel(index);
-      }
-    });
-  });
+@keyframes typing {
+  0% { width: 0; opacity: 1; }
+  99% { border-right-color: white; }
+  100% { width: 100%; border-right-color: transparent; }
+}
 
-  // Функция перехода с анимацией
-  function goToPanel(index) {
-    isAnimating = true;
-    
-    // Сброс анимаций текущей панели
-    resetAnimations(panels[currentIndex]);
-    
-    panels[currentIndex].classList.remove('active');
-    dots[currentIndex].classList.remove('active');
-    
-    // Установка нового контента
-    const panel = panels[index];
-    const typingElement = panel.querySelector('.typing-text');
-    const textElement = panel.querySelector('.text-content p');
-    
-    typingElement.textContent = panelTexts[index];
-    typingElement.style.width = '0';
-    textElement.textContent = panelDescriptions[index];
-    
-    panel.classList.add('active');
-    dots[index].classList.add('active');
-    
-    currentIndex = index;
-    
-    setTimeout(() => {
-      isAnimating = false;
-    }, 3500); // Общее время всех анимаций
-  }
+@keyframes fade-in {
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  function resetAnimations(panel) {
-    const elements = panel.querySelectorAll('.typing-text, .text-content, .slide-up-btn');
-    elements.forEach(el => {
-      el.style.animation = 'none';
-      el.style.opacity = '0';
-      if (el.classList.contains('typing-text')) {
-        el.style.width = '0';
-      }
-      if (el.classList.contains('slide-up-btn')) {
-        el.style.transform = 'translateY(50px)';
-      }
-      if (el.classList.contains('text-content')) {
-        el.style.transform = 'translateY(20px)';
-      }
-      
-      // Принудительный рефлоу
-      void el.offsetWidth;
-    });
-  }
+@keyframes slide-up {
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  // Инициализация первого блока
-  const firstPanel = panels[0];
-  const firstTyping = firstPanel.querySelector('.typing-text');
-  const firstText = firstPanel.querySelector('.text-content p');
-  
-  firstTyping.textContent = panelTexts[0];
-  firstTyping.style.width = '0';
-  firstText.textContent = panelDescriptions[0];
-});
+/* Анимация появления для активного блока */
+.panel.active .typing-text {
+  animation: typing 2s ease forwards, blink-caret 0.75s step-end infinite;
+}
+
+.panel.active .text-content {
+  animation: fade-in 1s ease 2s forwards; /* Начинается после печати */
+}
+
+.panel.active .slide-up-btn {
+  animation: slide-up 1s ease 3s forwards; /* Начинается после текста */
+}
