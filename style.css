@@ -1,78 +1,212 @@
-/* Основные стили */
-.panel-content {
-  position: relative;
-  width: 80%;
-  max-width: 800px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  height: 100%;
-  padding-top: 15vh; /* Заголовок в первой трети */
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-.typing-text {
-  font-size: 3rem;
-  margin-bottom: 2rem;
-  min-height: 4rem;
-  border-right: 3px solid white;
-  white-space: nowrap;
+html, body {
+  height: 100%;
+  font-family: 'Arial', sans-serif;
   overflow: hidden;
-  opacity: 0;
 }
 
-.text-content {
-  opacity: 0;
-  transform: translateY(20px);
-  width: 100%;
-  margin: 2rem 0;
+body {
+  background: #000;
+  color: white;
 }
 
-.text-content p {
-  text-align: left;
-  font-size: 1.2rem;
-  line-height: 1.8;
-  max-width: 100%;
-}
-
-.slide-up-btn {
-  position: absolute;
-  bottom: 20vh; /* Кнопка в нижней трети */
+header {
+  position: fixed;
+  top: 0;
   left: 0;
+  width: 100%;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #4d96ff;
+}
+
+.scroll-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+.panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(100%);
+  transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.panel.active {
+  transform: translateY(0);
+}
+
+.panel.prev {
+  transform: translateY(-100%);
+}
+
+.panel-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  max-width: 800px;
+  padding: 0 20px;
   opacity: 0;
   transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
 }
 
-/* Анимации */
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: white; }
+.panel.active .panel-content {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-@keyframes typing {
-  0% { width: 0; opacity: 1; }
-  99% { border-right-color: white; }
-  100% { width: 100%; border-right-color: transparent; }
+.parallax-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
 }
 
-@keyframes fade-in {
-  to { opacity: 1; transform: translateY(0); }
+#panel1 .parallax-bg {
+  background-image: url('bg1.jpg');
 }
 
-@keyframes slide-up {
-  to { opacity: 1; transform: translateY(0); }
+#panel2 .parallax-bg {
+  background-image: url('bg2.jpg');
 }
 
-/* Анимация появления для активного блока */
-.panel.active .typing-text {
-  animation: typing 2s ease forwards, blink-caret 0.75s step-end infinite;
+#panel3 .parallax-bg {
+  background-image: url('bg3.jpg');
 }
 
-.panel.active .text-content {
-  animation: fade-in 1s ease 2s forwards; /* Начинается после печати */
+#panel4 .parallax-bg {
+  background-image: url('bg4.jpg');
 }
 
-.panel.active .slide-up-btn {
-  animation: slide-up 1s ease 3s forwards; /* Начинается после текста */
+#panel5 .parallax-bg {
+  background-image: url('bg5.jpg');
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 15px 0;
+  text-align: center;
+  z-index: 100;
+  font-size: 0.9rem;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer-content a {
+  color: #aaa;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-content a:hover {
+  color: white;
+}
+
+.nav-dots {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  margin: 10px 0;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.dot.active {
+  background: white;
+  transform: scale(1.3);
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.panel p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  opacity: 0.9;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 25px;
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: 2px solid white;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.btn:hover {
+  background: white;
+  color: black;
 }
