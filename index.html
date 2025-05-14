@@ -1,58 +1,75 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Scroll Layer Reveal</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parallax Scroll</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="layer layer1">
-    <div class="content">
-      <h1>Блок 1</h1>
-      <p>Верхний лист бумаги</p>
+  <header>
+    <a href="#" class="logo">PARALLAX</a>
+    <nav class="nav-links">
+      <a href="#" data-index="0">Главная</a>
+      <a href="#" data-index="1">О нас</a>
+      <a href="#" data-index="2">Проекты</a>
+      <a href="#" data-index="3">Контакты</a>
+    </nav>
+  </header>
+
+  <main class="scroll-container">
+    <section class="panel active" id="panel1">
+      <div class="parallax-bg"></div>
+      <div class="panel-content">
+        <h1>Потрясающий параллакс</h1>
+        <p>Эффект глубины с плавной прокруткой</p>
+        <a href="#" class="btn" data-index="1">Далее</a>
+      </div>
+    </section>
+
+    <section class="panel" id="panel2">
+      <div class="parallax-bg"></div>
+      <div class="panel-content">
+        <h1>О нашей компании</h1>
+        <p>Инновационные решения с 2010 года</p>
+        <a href="#" class="btn" data-index="2">Далее</a>
+      </div>
+    </section>
+
+    <section class="panel" id="panel3">
+      <div class="parallax-bg"></div>
+      <div class="panel-content">
+        <h1>Наши проекты</h1>
+        <p>Лучшие работы и достижения</p>
+        <a href="#" class="btn" data-index="3">Далее</a>
+      </div>
+    </section>
+
+    <section class="panel" id="panel4">
+      <div class="parallax-bg"></div>
+      <div class="panel-content">
+        <h1>Контакты</h1>
+        <p>Готовы к сотрудничеству</p>
+        <a href="mailto:info@example.com" class="btn">Написать</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <a href="#">Политика конфиденциальности</a>
+      <a href="#">Условия использования</a>
+      <a href="mailto:info@example.com">info@example.com</a>
     </div>
-  </div>
-  <div class="layer layer2">
-    <div class="content">
-      <h1>Блок 2</h1>
-      <p>Выдвигается из-под первого</p>
-    </div>
-  </div>
-  <div class="layer layer3">
-    <div class="content">
-      <h1>Блок 3</h1>
-      <p>Третий слой</p>
-    </div>
-  </div>
-  <div class="layer layer4">
-    <div class="content">
-      <h1>Блок 4</h1>
-      <p>Четвёртая бумажка</p>
-    </div>
-  </div>
-  <div class="layer layer5">
-    <div class="content">
-      <h1>Блок 5</h1>
-      <p>Финал!</p>
-    </div>
+  </footer>
+
+  <div class="nav-dots">
+    <div class="dot active" data-index="0"></div>
+    <div class="dot" data-index="1"></div>
+    <div class="dot" data-index="2"></div>
+    <div class="dot" data-index="3"></div>
   </div>
 
-  <script>
-    const layers = document.querySelectorAll('.layer');
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.5 });
-
-    layers.forEach(layer => {
-      observer.observe(layer);
-    });
-  </script>
+  <script src="js/script.js"></script>
 </body>
 </html>
