@@ -1,13 +1,12 @@
-/* Основные стили остаются прежними, добавляем новые: */
-
+/* Основные стили */
 .panel-content {
   position: relative;
   width: 80%;
   max-width: 800px;
-  padding: 0;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Выравнивание по левому краю */
+  align-items: flex-start;
   height: 100%;
   padding-top: 15vh; /* Заголовок в первой трети */
   box-sizing: border-box;
@@ -20,22 +19,21 @@
   border-right: 3px solid white;
   white-space: nowrap;
   overflow: hidden;
-  animation: blink-caret 0.75s step-end infinite;
+  opacity: 0;
 }
 
 .text-content {
   opacity: 0;
   transform: translateY(20px);
-  transition: all 0.8s ease;
   width: 100%;
-  margin-bottom: 15vh; /* Отступ для кнопки */
+  margin: 2rem 0;
 }
 
 .text-content p {
   text-align: left;
   font-size: 1.2rem;
   line-height: 1.8;
-  max-width: 700px;
+  max-width: 100%;
 }
 
 .slide-up-btn {
@@ -44,7 +42,6 @@
   left: 0;
   opacity: 0;
   transform: translateY(50px);
-  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Анимации */
@@ -53,22 +50,10 @@
   50% { border-color: white; }
 }
 
-/* Анимация появления для активного блока */
-.panel.active .typing-text {
-  animation: typing 2s steps(30, end) forwards;
-}
-
-.panel.active .text-content {
-  animation: fade-in 1s ease 2s forwards;
-}
-
-.panel.active .slide-up-btn {
-  animation: slide-up 1s ease 3s forwards;
-}
-
 @keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+  0% { width: 0; opacity: 1; }
+  99% { border-right-color: white; }
+  100% { width: 100%; border-right-color: transparent; }
 }
 
 @keyframes fade-in {
@@ -77,4 +62,17 @@
 
 @keyframes slide-up {
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Анимация появления для активного блока */
+.panel.active .typing-text {
+  animation: typing 2s ease forwards, blink-caret 0.75s step-end infinite;
+}
+
+.panel.active .text-content {
+  animation: fade-in 1s ease 2s forwards; /* Начинается после печати */
+}
+
+.panel.active .slide-up-btn {
+  animation: slide-up 1s ease 3s forwards; /* Начинается после текста */
 }
