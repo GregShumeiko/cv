@@ -1,90 +1,59 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const panels = document.querySelectorAll('.panel');
-  const dots = document.querySelectorAll('.dot');
-  const navLinks = document.querySelectorAll('.nav-links a');
-  const btns = document.querySelectorAll('.btn');
-  let currentIndex = 0;
-  let isAnimating = false;
+  // ... предыдущий код ...
 
-  // Инициализация
-  panels[0].classList.add('active');
+  // Тексты для анимации печати
+  const panelTexts = [
+    "Потрясающий параллакс",
+    "О нашей компании",
+    "Наши проекты",
+    "Наши услуги",
+    "Контакты"
+  ];
 
-  // Навигация по точкам
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      const index = parseInt(dot.getAttribute('data-index'));
-      goToPanel(index);
-    });
-  });
-
-  // Навигация по ссылкам
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const index = parseInt(link.getAttribute('data-index'));
-      goToPanel(index);
-    });
-  });
-
-  // Навигация по кнопкам
-  btns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      if (btn.hasAttribute('data-index')) {
-        e.preventDefault();
-        const index = parseInt(btn.getAttribute('data-index'));
-        goToPanel(index);
-      }
-    });
-  });
-
-  // Обработчик колеса мыши
-  window.addEventListener('wheel', (e) => {
-    if (isAnimating) return;
-    
-    if (e.deltaY > 0) {
-      if (currentIndex < panels.length - 1) {
-        goToPanel(currentIndex + 1);
-      }
-    } else {
-      if (currentIndex > 0) {
-        goToPanel(currentIndex - 1);
-      }
-    }
-  }, { passive: false });
-
-  // Обработчик касаний
+  // Обработчик касаний с ограничением
   let touchStartY = 0;
+  let lastScrollTime = 0;
+  const scrollDelay = 1000; // Задержка между скроллами
+
   window.addEventListener('touchstart', (e) => {
     touchStartY = e.touches[0].clientY;
   }, { passive: true });
 
   window.addEventListener('touchend', (e) => {
-    if (isAnimating) return;
+    const now = Date.now();
+    if (now - lastScrollTime < scrollDelay) return;
     
     const touchEndY = e.changedTouches[0].clientY;
     const diff = touchStartY - touchEndY;
     
     if (diff > 50 && currentIndex < panels.length - 1) {
       goToPanel(currentIndex + 1);
+      lastScrollTime = now;
     } else if (diff < -50 && currentIndex > 0) {
       goToPanel(currentIndex - 1);
+      lastScrollTime = now;
     }
   }, { passive: true });
 
-  // Функция перехода к панели
+  // Функция перехода с анимацией текста
   function goToPanel(index) {
     if (isAnimating || index < 0 || index >= panels.length || index === currentIndex) return;
     
     isAnimating = true;
     
-    panels[currentIndex].classList.remove('active');
-    panels[currentIndex].classList.add(index > currentIndex ? 'prev' : 'next');
+    // Сброс анимаций текущей панели
+    resetAnimations(panels[currentIndex]);
     
+    panels[currentIndex].classList.remove('active');
     dots[currentIndex].classList.remove('active');
-    dots[index].classList.add('active');
+    
+    // Установка нового текста
+    const typingElement = panels[index].querySelector('.typing-text');
+    typingElement.textContent = panelTexts[index];
+    typingElement.style.width = '0';
     
     panels[index].classList.add('active');
-    panels[index].classList.remove('prev', 'next');
+    dots[index].classList.add('active');
     
     currentIndex = index;
     
@@ -92,4 +61,25 @@ document.addEventListener('DOMContentLoaded', () => {
       isAnimating = false;
     }, 1000);
   }
+
+  function resetAnimations(panel) {
+    const typingElement = panel.querySelector('.typing-text');
+    const textContent = panel.querySelector('.text-content');
+    const button = panel.querySelector('.slide-up-btn');
+    
+    typingElement.style.animation = 'none';
+    textContent.style.animation = 'none';
+    button.style.animation = 'none';
+    
+    setTimeout(() => {
+      typingElement.style.animation = '';
+      textContent.style.animation = '';
+      button.style.animation = '';
+    }, 10);
+  }
+
+  // Инициализация первого блока
+  const firstTyping = document.querySelector('.typing-text');
+  firstTyping.textContent = panelTexts[0];
+  firstTyping.style.width = '0';
 });
