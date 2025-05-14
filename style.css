@@ -1,0 +1,44 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+.layer {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  flex-direction: column;
+  color: white;
+  text-align: center;
+}
+
+.layer .content {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease-out;
+}
+
+.layer.visible .content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Цвета слоёв и порядок */
+.layer1 { background: #FF6B6B; z-index: 5; }
+.layer2 { background: #FFD93D; color: #222; z-index: 4; }
+.layer3 { background: #6BCB77; z-index: 3; }
+.layer4 { background: #4D96FF; z-index: 2; }
+.layer5 { background: #9D4EDD; z-index: 1; }
