@@ -38,7 +38,7 @@ html, body {
 
 /* Цвета слоёв и порядок */
 .layer1 { background: #FF6B6B; z-index: 5; }
-.layer2 { background: #FFD93D; color: #222; z-index: 4; }
+.layer2 { background: #FFD93D; z-index: 4; }
 .layer3 { background: #6BCB77; z-index: 3; }
 .layer4 { background: #4D96FF; z-index: 2; }
 .layer5 { background: #9D4EDD; z-index: 1; }
