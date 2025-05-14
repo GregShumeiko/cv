@@ -1,4 +1,4 @@
-{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -97,7 +97,6 @@ header {
   transform: translateY(0);
 }
 
-HEAD
 .parallax-bg {
   position: absolute;
   top: 0;
@@ -110,23 +109,23 @@ HEAD
 }
 
 #panel1 .parallax-bg {
-  background-image: url('../images/bg1.jpg');
+  background-image: url('bg1.jpg');
 }
 
 #panel2 .parallax-bg {
-  background-image: url('../images/bg2.jpg');
+  background-image: url('bg2.jpg');
 }
 
 #panel3 .parallax-bg {
-  background-image: url('../images/bg3.jpg');
+  background-image: url('bg3.jpg');
 }
 
 #panel4 .parallax-bg {
-  background-image: url('../images/bg4.jpg');
+  background-image: url('bg4.jpg');
 }
 
 #panel5 .parallax-bg {
-  background-image: url('../images/bg5.jpg');
+  background-image: url('bg5.jpg');
 }
 
 footer {
@@ -211,10 +210,3 @@ h1 {
   background: white;
   color: black;
 }
-/* Цвета слоёв и порядок */
-.layer1 { background: #FF6B6B; z-index: 5; }
-.layer2 { background: #FFD93D; z-index: 4; }
-.layer3 { background: #6BCB77; z-index: 3; }
-.layer4 { background: #4D96FF; z-index: 2; }
-.layer5 { background: #9D4EDD; z-index: 1; }
-26d24df2387aa66eabbda30a297e2a2c9aa13176
